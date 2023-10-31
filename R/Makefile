@@ -1,6 +1,9 @@
 PACKAGE := $(shell grep '^Package:' DESCRIPTION | sed -E 's/^Package:[[:space:]]+//')
 RSCRIPT = Rscript --no-init-file
 
+# .PHONY is used so that make will not treat the target as a filename
+.PHONY: install build doc eg check test readme
+
 install: doc build
 	R CMD INSTALL . && rm *.tar.gz
 

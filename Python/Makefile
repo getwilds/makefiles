@@ -1,8 +1,13 @@
+# You can refer to the base dir of your project if needed with: ${PACKAGE}
 PACKAGE := $(shell basename $(CURDIR))
+
+# .PHONY is used so that make will not treat the target as a filename
+.PHONY: install test docs clean dist
 
 install:
 	python3 -m pip install .
 
+.PHONY: test
 test:
 	python3 -m pytest test/
 
@@ -31,17 +36,13 @@ upload_test:
 upload:
 	python3 -m twine upload dist/*
 
-# both lint cmds assume a requirements-dev.txt with pkgs: ruff, black, isort
-.PHONY: lint-fix
+# both lint cmds assume a requirements-dev.txt with pkg: ruff, isort
 lint-fix:
 	pip3 install -q -r requirements-dev.txt
 	isort .
-	black .
-	ruff check --fix ${PACKAGE}
+	ruff check --fix .
 
-.PHONY: lint-check
 lint-check:
 	pip3 install -q -r requirements-dev.txt
 	isort . --check-only
-	black . --check
-	ruff check ${PACKAGE}
+	ruff check .
