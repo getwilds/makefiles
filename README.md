@@ -1,6 +1,8 @@
 makefiles
 =========
 
+[![Project Status: Prototype – Useable, some support, open to feedback, unstable API.](https://getwilds.github.io/badges/badges/prototype.svg)](https://getwilds.github.io/badges/#prototype)
+
 Makefile templates for WILDS projects.
 
 - R
