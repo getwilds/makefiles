@@ -1,9 +1,9 @@
 PACKAGE := $(shell grep '^Package:' DESCRIPTION | sed -E 's/^Package:[[:space:]]+//')
 RSCRIPT = Rscript --no-init-file
-FILE_TARGET := "R/${FILE}"
+FILE_TARGET := "R/${FILE}.R"
 
 # .PHONY is used so that make will not treat the target as a filename
-.PHONY: install build doc eg check test readme
+.PHONY: docs test readme
 
 install: doc build
 	R CMD INSTALL . && rm *.tar.gz
@@ -28,11 +28,14 @@ test:
 readme:
 	${RSCRIPT} -e "knitr::knit('README.Rmd')"
 
+docs:
+	${RSCRIPT} -e "pkgdown::build_site(); pkgdown::preview_site(preview=TRUE)"
+
 lint_package:
 	${RSCRIPT} -e "lintr::lint_package()"
 
-# use: `make style_file FILE=stuff.R`
-# ("R/" is prepended); accepts 1 file only
+# use: `make style_file FILE=stuff`
+# (`stuff` is put into the string "R/%s.R"); accepts 1 file only
 style_file:
 	${RSCRIPT} -e 'styler::style_file(${FILE_TARGET})'
 
