@@ -25,6 +25,10 @@ check: build
 test:
 	${RSCRIPT} -e "devtools::test()"
 
+coverage:
+	${RSCRIPT} -e 'if (!requireNamespace("covr")) pak::pak("covr")' \
+-e 'Sys.setenv(NOT_CRAN = "true"); covr::package_coverage()'
+
 readme:
 	${RSCRIPT} -e "knitr::knit('README.Rmd')"
 
